@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_move_form_inherit_sun_news" model="ir.ui.view">
+        <name>account.move.form.inherit.sun.news</name>
+        <model>account.move</model>
+        <inherit_id ref="account.view_move_form"/>
+        <arch type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="advertiser_id" invisible="move_type not in ('out_invoice', 'out_refund', 'out_receipt')" context="{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': True}" options='{"always_reload": True}'/>
+                <field name="advertiser_ntn" invisible="move_type not in ('out_invoice', 'out_refund', 'out_receipt')"/>
+                <field name="advertiser_gst" invisible="move_type not in ('out_invoice', 'out_refund', 'out_receipt')"/>
+            </xpath>
+            <xpath expr="//field[@name='ref']" position="after">
+                <field name="ro_number" invisible="move_type not in ('out_invoice', 'out_refund', 'out_receipt')"/>
+                <field name="tc_number" invisible="move_type not in ('out_invoice', 'out_refund', 'out_receipt')"/>
+                <field name="spl_pid_number" invisible="move_type not in ('out_invoice', 'out_refund', 'out_receipt')"/>
+            </xpath>
+            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_subtotal']" position="before">
+                <field name="commission_amount" optional="show" invisible="parent.move_type not in ('out_invoice', 'out_refund', 'out_receipt')"/>
+            </xpath>
+        </arch>
+    </record>
+</odoo>
