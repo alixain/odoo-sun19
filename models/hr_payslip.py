@@ -12,18 +12,33 @@ class HrPayslip(models.Model):
         return res
 
     def _ensure_attn_input(self):
-        """Ensure an ATTN input line exists on the payslip"""
+        """Ensure an ATTN input line exists on the payslip with count from attendance"""
         for payslip in self:
+            # Calculate unique days of attendance
+            attendance_domain = [
+                ('employee_id', '=', payslip.employee_id.id),
+                ('check_in', '>=', payslip.date_from),
+                ('check_in', '<=', payslip.date_to),
+            ]
+            attendances = self.env['hr.attendance'].search(attendance_domain)
+            # Use a set to count unique days (dates only)
+            unique_days = set(attendances.mapped(lambda a: a.check_in.date()))
+            worked_days = float(len(unique_days))
+            
             # Check if ATTN input already exists
-            if not payslip.input_line_ids.filtered(lambda x: x.code == 'ATTN'):
-                # Create the input line directly with required contract_id
+            attn_input = payslip.input_line_ids.filtered(lambda x: x.code == 'ATTN')
+            if not attn_input:
+                # Create the input line directly with attendance count
                 self.env['hr.payslip.input'].create({
                     'payslip_id': payslip.id,
                     'contract_id': payslip.contract_id.id,
                     'code': 'ATTN',
                     'name': 'Attendance/Worked Days (ATTN)',
-                    'amount': 0.0,
+                    'amount': worked_days,
                 })
+            else:
+                # Update existing one (synced with current attendance)
+                attn_input.write({'amount': worked_days})
 
     def compute_sheet(self):
         self._ensure_attn_input()

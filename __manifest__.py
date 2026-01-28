@@ -9,7 +9,7 @@
         - Custom fields for Payslips.
     """,
     'author': 'Aspire Analytica',
-    'depends': ['sale', 'account', 'hr_payroll_community'],
+    'depends': ['sale', 'account', 'hr_payroll_community', 'hr_attendance'],
     'data': [
         # 'views/sale_order_views.xml',
         # 'views/account_move_views.xml',
