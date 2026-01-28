@@ -1,64 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <template id="report_invoice_document_inherit_sun_news" inherit_id="account.report_invoice_document">
-            <!-- Header Customizations -->
-            <xpath expr="//div[@name='address_not_same_as_shipping']" position="before">
-                <div class="row" name="advertiser_info" t-if="o.advertiser_id">
-                    <div class="col-12">
-                        <strong>Advertiser:</strong>
-                        <span t-field="o.advertiser_id.name"/><br/>
-                        <span t-field="o.advertiser_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": True}'/><br/>
-                        <strong>Advertiser NTN/FTN#:</strong> <span t-field="o.advertiser_ntn"/><br/>
-                        <strong>Advertiser GST#:</strong> <span t-field="o.advertiser_gst"/>
-                    </div>
+    <template id="report_invoice_document_inherit_sun_news" inherit_id="account.report_invoice_document">
+        <!-- Header Customizations -->
+        <xpath expr="//div[@name='address_not_same_as_shipping']" position="before">
+            <div class="row" name="advertiser_info" t-if="o.advertiser_id">
+                <div class="col-12">
+                    <strong>Advertiser:</strong>
+                    <span t-field="o.advertiser_id.name"/><br/>
+                    <span t-field="o.advertiser_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": True}'/><br/>
+                    <strong>Advertiser NTN/FTN#:</strong> <span t-field="o.advertiser_ntn"/><br/>
+                    <strong>Advertiser GST#:</strong> <span t-field="o.advertiser_gst"/>
                 </div>
-            </xpath>
+            </div>
+        </xpath>
 
-            <xpath expr="//div[@id='informations']" position="inside">
-                <div class="col-auto col-3 mw-100 mb-2" t-if="o.ro_number" name="ro_number">
-                    <strong>RO#:</strong>
-                    <p class="m-0" t-field="o.ro_number"/>
-                </div>
-                <div class="col-auto col-3 mw-100 mb-2" t-if="o.tc_number" name="tc_number">
-                    <strong>TC No.:</strong>
-                    <p class="m-0" t-field="o.tc_number"/>
-                </div>
-                <div class="col-auto col-3 mw-100 mb-2" t-if="o.spl_pid_number" name="spl_pid_number">
-                    <strong>SPL/PID#:</strong>
-                    <p class="m-0" t-field="o.spl_pid_number"/>
-                </div>
-            </xpath>
+        <xpath expr="//div[@id='informations']" position="inside">
+            <div class="col-auto col-3 mw-100 mb-2" t-if="o.ro_number" name="ro_number">
+                <strong>RO#:</strong>
+                <p class="m-0" t-field="o.ro_number"/>
+            </div>
+            <div class="col-auto col-3 mw-100 mb-2" t-if="o.tc_number" name="tc_number">
+                <strong>TC No.:</strong>
+                <p class="m-0" t-field="o.tc_number"/>
+            </div>
+            <div class="col-auto col-3 mw-100 mb-2" t-if="o.spl_pid_number" name="spl_pid_number">
+                <strong>SPL/PID#:</strong>
+                <p class="m-0" t-field="o.spl_pid_number"/>
+            </div>
+        </xpath>
 
-            <!-- Commission Column (Assuming we need to add a column in the lines table) -->
-            <!-- Requirement: "commission amount deduction column before total receiveable amount" -->
-            <!-- This might refer to a summary line or a column. Usually for media, it's a column. -->
-            <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[@name='th_subtotal']" position="before">
-                <th name="th_commission" class="text-end"><span>Commission</span></th>
-            </xpath>
-            <xpath expr="//table[@name='invoice_line_table']/tbody//tr[@t-if='not line.display_type']/td[@name='td_subtotal']" position="before">
-                <td name="td_commission" class="text-end">
-                    <span t-field="line.commission_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
-                </td>
-            </xpath>
+        <!-- Commission Column -->
+        <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[@name='th_subtotal']" position="before">
+            <th name="th_commission" class="text-end"><span>Commission</span></th>
+        </xpath>
+        <xpath expr="//table[@name='invoice_line_table']/tbody//tr[@t-if='not line.display_type']/td[@name='td_subtotal']" position="before">
+            <td name="td_commission" class="text-end">
+                <span t-field="line.commission_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+            </td>
+        </xpath>
 
-            <!-- Signature Columns -->
-            <xpath expr="//div[@name='comment']" position="after">
-                <div class="row mt-5 pt-5" name="signature_blocks">
-                    <div class="col-4 text-center">
-                        <div style="border-top: 1px solid black; width: 80%; margin: 0 auto;"></div>
-                        <strong>Prepared by</strong>
-                    </div>
-                    <div class="col-4 text-center">
-                        <div style="border-top: 1px solid black; width: 80%; margin: 0 auto;"></div>
-                        <strong>Checked By</strong>
-                    </div>
-                    <div class="col-4 text-center">
-                        <div style="border-top: 1px solid black; width: 80%; margin: 0 auto;"></div>
-                        <strong>Approved By</strong>
-                    </div>
+        <!-- Signature Columns -->
+        <xpath expr="//div[@name='comment']" position="after">
+            <div class="row mt-5 pt-5" name="signature_blocks">
+                <div class="col-4 text-center">
+                    <div style="border-top: 1px solid black; width: 80%; margin: 0 auto;"></div>
+                    <strong>Prepared by</strong>
                 </div>
-            </xpath>
-        </template>
-    </data>
+                <div class="col-4 text-center">
+                    <div style="border-top: 1px solid black; width: 80%; margin: 0 auto;"></div>
+                    <strong>Checked By</strong>
+                </div>
+                <div class="col-4 text-center">
+                    <div style="border-top: 1px solid black; width: 80%; margin: 0 auto;"></div>
+                    <strong>Approved By</strong>
+                </div>
+            </div>
+        </xpath>
+    </template>
 </odoo>
