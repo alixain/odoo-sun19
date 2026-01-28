@@ -11,10 +11,10 @@
     'author': 'Aspire Analytica',
     'depends': ['sale', 'account', 'hr_payroll_community'],
     'data': [
-        # 'views/sale_order_views.xml',
-        'views/account_move_views.xml',
+        'views/sale_order_views.xml',
+        # 'views/account_move_views.xml',
         # 'views/hr_payslip_views.xml',
-        # 'reports/invoice_report_templates.xml',
+        'reports/invoice_report_templates.xml',
     ],
     'installable': True,
     'application': True,
