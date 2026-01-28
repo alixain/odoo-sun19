@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <record id="view_hr_payslip_form_inherit_sun_news" model="ir.ui.view">
-            <name>hr.payslip.form.inherit.sun_news</name>
-            <model>hr.payslip</model>
-            <inherit_id ref="hr_payroll_community.view_hr_payslip_form"/>
-            <arch type="xml">
-                <!-- No custom fields needed here anymore as we use the standard 'Other Inputs' tab -->
-                <xpath expr="//field[@name='employee_id']" position="after">
-                    <!-- Keep it empty or add instructions if needed -->
-                </xpath>
-            </arch>
-        </record>
-    </data>
+    <record id="view_hr_payslip_form_inherit_sun_news" model="ir.ui.view">
+        <name>hr.payslip.form.inherit.sun_news</name>
+        <model>hr.payslip</model>
+        <inherit_id ref="hr_payroll_community.view_hr_payslip_form"/>
+        <arch type="xml">
+            <!-- No custom fields needed here anymore as we use the standard 'Other Inputs' tab -->
+            <xpath expr="//field[@name='employee_id']" position="after">
+                <!-- Keep it empty or add instructions if needed -->
+            </xpath>
+        </arch>
+    </record>
 </odoo>
