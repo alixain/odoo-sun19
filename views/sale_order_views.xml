@@ -1,3 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="view_order_form_inherit_sun_news" model="ir.ui.view">
+        <name>sale.order.form.inherit.sun.news</name>
+        <model>sale.order</model>
+        <inherit_id ref="sale.view_order_form"/>
+        <arch type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="advertiser_id" context="{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': True}" options='{"always_reload": True}'/>
+                <field name="advertiser_ntn"/>
+                <field name="advertiser_gst"/>
+            </xpath>
+            <xpath expr="//group[@name='order_details']" position="inside">
+                <field name="ro_number"/>
+                <field name="tc_number"/>
+                <field name="spl_pid_number"/>
+            </xpath>
+            <xpath expr="//tree/field[@name='price_subtotal']" position="before">
+                <field name="commission_amount" optional="show"/>
+            </xpath>
+        </arch>
+    </record>
 </odoo>

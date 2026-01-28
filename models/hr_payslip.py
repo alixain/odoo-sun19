@@ -16,9 +16,10 @@ class HrPayslip(models.Model):
         for payslip in self:
             # Check if ATTN input already exists
             if not payslip.input_line_ids.filtered(lambda x: x.code == 'ATTN'):
-                # Create the input line directly
+                # Create the input line directly with required contract_id
                 self.env['hr.payslip.input'].create({
                     'payslip_id': payslip.id,
+                    'contract_id': payslip.contract_id.id,
                     'code': 'ATTN',
                     'name': 'Attendance/Worked Days (ATTN)',
                     'amount': 0.0,
