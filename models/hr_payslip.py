@@ -12,20 +12,15 @@ class HrPayslip(models.Model):
         return res
 
     def _ensure_attn_input(self):
+        """Ensure an ATTN input line exists on the payslip"""
         for payslip in self:
+            # Check if ATTN input already exists
             if not payslip.input_line_ids.filtered(lambda x: x.code == 'ATTN'):
-                # Search for the input type with code 'ATTN' first
-                input_type = self.env['hr.payslip.input.type'].search([('code', '=', 'ATTN')], limit=1)
-                if not input_type:
-                    # Create input type if it doesn't exist
-                    input_type = self.env['hr.payslip.input.type'].create({
-                        'name': 'Attendance/Worked Days (ATTN)',
-                        'code': 'ATTN',
-                    })
-                
+                # Create the input line directly
                 self.env['hr.payslip.input'].create({
                     'payslip_id': payslip.id,
-                    'input_type_id': input_type.id,
+                    'code': 'ATTN',
+                    'name': 'Attendance/Worked Days (ATTN)',
                     'amount': 0.0,
                 })
 
