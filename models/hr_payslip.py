@@ -22,7 +22,7 @@ class HrPayslip(models.Model):
             ]
             attendances = self.env['hr.attendance'].search(attendance_domain)
             # Use a set to count unique days (dates only)
-            unique_days = set(attendances.mapped(lambda a: a.check_in.date()))
+            unique_days = {a.check_in.date() for a in attendances if a.check_in}
             worked_days = float(len(unique_days))
             
             # Check if ATTN input already exists
